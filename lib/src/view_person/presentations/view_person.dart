@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:fake_persons/src/view_person/data/person.dart';
 
 class ViewPerson extends StatelessWidget {
-  final Map<String, dynamic> person;
+  final Person person;
 
   const ViewPerson({super.key, required this.person});
 
   @override
   Widget build(BuildContext context) {
-    var address = person['address'];
+    var address = person.address;
     return Scaffold(
       appBar: AppBar(
-        title: Text('${person['firstname']} ${person['lastname']}'),
+        title: Text('${person.firstname} ${person.lastname}'),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              person['image'],
+              person.image ?? '',
               width: double.infinity,
               height: 200,
               fit: BoxFit.cover,
@@ -66,27 +67,27 @@ class ViewPerson extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${person['firstname']} ${person['lastname']}',
+                    '${person.firstname} ${person.lastname}',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Email: ${person['email']}',
+                    'Email: ${person.email}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Phone: ${person['phone']}',
+                    'Phone: ${person.phone}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Birthday: ${person['birthday']}',
+                    'Birthday: ${person.birthday}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Gender: ${person['gender']}',
+                    'Gender: ${person.gender}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
@@ -95,28 +96,28 @@ class ViewPerson extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   Text(
-                    '${address['street']}',
+                    address?.street ?? "",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    '${address['streetName']}',
+                    address?.streetName ?? "",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    '${address['buildingNumber']}',
+                    address?.buildingNumber ?? "",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    '${address['city']}, ${address['zipcode']}',
+                    '${address?.city ?? ""}, ${address?.zipcode ?? ""}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   Text(
-                    '${address['country']}',
+                    address?.country ?? "",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Website: ${person['website']}',
+                    'Website: ${person.website}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
