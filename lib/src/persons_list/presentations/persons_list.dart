@@ -1,4 +1,5 @@
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:fake_persons/core/models/list_state.dart';
 import 'package:fake_persons/core/routing/app_router.dart';
 import 'package:fake_persons/core/widgets/async_value_widget.dart';
 import 'package:fake_persons/src/persons_list/applications/persons_notifier.dart';
@@ -46,13 +47,13 @@ class PersonsList extends HookConsumerWidget {
             .fetchMore(page: page.value);
         page.value++;
       },
-      child: AsyncValueWidget<List<Person>>(
+      child: AsyncValueWidget<ListState<Person>>(
           value: asyncPersons,
           data: (persons) {
             return ListView.builder(
-              itemCount: persons.length,
+              itemCount: persons.items.length,
               itemBuilder: (context, index) {
-                final person = persons[index];
+                final person = persons.items[index];
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(person.image ?? ""),

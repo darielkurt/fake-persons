@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fake_persons/core/client.dart';
+import 'package:fake_persons/core/models/list_state.dart';
 import 'package:fake_persons/src/view_person/data/person.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,15 +11,14 @@ class PersonsRepositoryImpl extends PersonsRepository {
   final Dio dio;
 
   @override
-  Future<List<Person>> getPersons({required int quantity}) async {
+  Future<ListState<Person>> getPersons({required int quantity}) async {
     final url = '$baseUrl?_quantity=$quantity';
     final result = await dio.get(url);
 
     if (result.data != null) {
-      final List personResult = result.data['data'];
-      final List<Person> personList =
-          personResult.map((e) => Person.fromJson(e)).toList();
-      return personList;
+      final ListState<Person> listState =
+          ListState.fromJson(result.data, (json) => Person.fromJson(json));
+      return listState;
     }
 
     // TODO error handling
@@ -27,7 +27,7 @@ class PersonsRepositoryImpl extends PersonsRepository {
 }
 
 abstract class PersonsRepository {
-  Future<List<Person>> getPersons({required int quantity});
+  Future<ListState<Person>> getPersons({required int quantity});
 }
 
 final personsRepositoryProvider =
@@ -35,4 +35,3 @@ final personsRepositoryProvider =
   final dio = ref.watch(dioProvider);
   return PersonsRepositoryImpl(dio);
 });
-
