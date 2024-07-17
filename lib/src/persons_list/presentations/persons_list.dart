@@ -41,10 +41,24 @@ class PersonsList extends HookConsumerWidget {
     final page = useState(2);
     return EasyRefresh(
       controller: easyRefreshController,
+      onRefresh: () async {
+        easyRefreshController.callRefresh();
+        ref.invalidate(asyncPersonsProvider);
+        easyRefreshController.resetFooter();
+        await ref.read(asyncPersonsProvider.future);
+
+        return IndicatorResult.success;
+      },
       onLoad: () async {
         await ref
             .read(asyncPersonsProvider.notifier)
             .fetchMore(page: page.value);
+
+        if (page.value == 4) {
+          page.value = 2;
+          return IndicatorResult.noMore;
+        }
+
         page.value++;
       },
       child: AsyncValueWidget<ListState<Person>>(
