@@ -10,8 +10,8 @@ class PersonsRepositoryImpl extends PersonsRepository {
   final Dio dio;
 
   @override
-  Future<List<Person>> getPersons() async {
-    const url = '$baseUrl?_quantity=10';
+  Future<List<Person>> getPersons({required int quantity}) async {
+    final url = '$baseUrl?_quantity=$quantity';
     final result = await dio.get(url);
 
     if (result.data != null) {
@@ -27,18 +27,12 @@ class PersonsRepositoryImpl extends PersonsRepository {
 }
 
 abstract class PersonsRepository {
-  Future<List<Person>> getPersons();
+  Future<List<Person>> getPersons({required int quantity});
 }
 
 final personsRepositoryProvider =
     Provider.autoDispose<PersonsRepository>((ref) {
   final dio = ref.watch(dioProvider);
   return PersonsRepositoryImpl(dio);
-});
-
-final personsFutureProvider =
-    FutureProvider.autoDispose<List<Person>>((ref) async {
-  final personsRepository = ref.watch(personsRepositoryProvider);
-  return personsRepository.getPersons();
 });
 

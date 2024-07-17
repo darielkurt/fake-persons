@@ -16,18 +16,16 @@ class AsyncValueWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: value.when(
-        data: data,
-        error: (e, st) {
-          if (customError != null) {
-            return customError!;
-          }
-          return const SizedBox.shrink();
-        },
-        loading: () =>
-            customLoading ?? const Center(child: CircularProgressIndicator()),
-      ),
+    return value.when(
+      data: data,
+      error: (e, st) {
+        if (customError != null) {
+          return customError!;
+        }
+        return const SizedBox.shrink();
+      },
+      loading: () =>
+          customLoading ?? const Center(child: CircularProgressIndicator()),
     );
   }
 }
