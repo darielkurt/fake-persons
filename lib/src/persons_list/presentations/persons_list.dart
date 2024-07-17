@@ -1,9 +1,10 @@
+import 'package:fake_persons/core/routing/app_router.dart';
 import 'package:fake_persons/core/widgets/async_value_widget.dart';
 import 'package:fake_persons/src/persons_list/domain/persons_repository.dart';
 import 'package:fake_persons/src/view_person/data/person.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fake_persons/src/view_person/presentations/view_person.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PersonsList extends ConsumerWidget {
   const PersonsList({super.key});
@@ -26,11 +27,10 @@ class PersonsList extends ConsumerWidget {
                 title: Text('${person.firstname} ${person.lastname}'),
                 subtitle: Text(person.email ?? ""),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewPerson(person: person),
-                    ),
+                  context.pushNamed(
+                    AppRoute.person.name,
+                    pathParameters: {'id': person.id.toString()},
+                    extra: person,
                   );
                 },
               );

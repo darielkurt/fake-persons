@@ -3,7 +3,6 @@ import 'package:fake_persons/src/view_person/data/person.dart';
 
 class ViewPerson extends StatelessWidget {
   final Person person;
-
   const ViewPerson({super.key, required this.person});
 
   @override
@@ -50,13 +49,12 @@ class ViewPerson extends StatelessWidget {
               },
               loadingBuilder: (BuildContext context, Widget child,
                   ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
+                return Container(
+                  width: double.infinity,
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: CircularProgressIndicator(color: Colors.grey),
                   ),
                 );
               },

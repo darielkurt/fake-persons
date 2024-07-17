@@ -1,4 +1,4 @@
-import 'package:fake_persons/src/view_person/presentations/view_person.dart';
+import 'package:fake_persons/src/persons_list/presentations/persons_list.dart';
 import 'package:flutter/material.dart';
 
 class PersonsScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class PersonsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Persons List'),
       ),
-      body: PersonsList(),
+      body: const PersonsList(),
     );
   }
 }

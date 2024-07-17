@@ -15,7 +15,6 @@ class PersonsRepositoryImpl extends PersonsRepository {
     final result = await dio.get(url);
 
     if (result.data != null) {
-      print(result.data['data']);
       final List personResult = result.data['data'];
       final List<Person> personList =
           personResult.map((e) => Person.fromJson(e)).toList();
@@ -42,3 +41,4 @@ final personsFutureProvider =
   final personsRepository = ref.watch(personsRepositoryProvider);
   return personsRepository.getPersons();
 });
+
