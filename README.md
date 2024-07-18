@@ -1,16 +1,15 @@
 # fake_persons
 
-A new Flutter project.
+This Flutter application retrieves person data from FakeAPI and displays them in a list/table. It includes features such as infinite scrolling, pull-to-refresh, and detailed data display on selection.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Installation
 
-A few resources to get you started if this is your first Flutter project:
+1. **Clone the repository**:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```bash
+   git clone <repository_url>
+   cd fake_persons
+   flutter pub get
+   flutter run
