@@ -8,7 +8,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PersonsList extends HookConsumerWidget {
   const PersonsList({super.key});
@@ -19,33 +18,6 @@ class PersonsList extends HookConsumerWidget {
     final scrollController = useScrollController();
     final easyRefreshController = EasyRefreshController();
     final page = useState(2);
-    final pagingController = useMemoized(
-      () => PagingController<int, int>(firstPageKey: 0),
-      [],
-    );
-
-    Future<void> _fetchPage(int pageKey) async {
-      try {
-        await Future.delayed(Duration(seconds: 2)); // Simulate network delay
-        final newItems = List.generate(_pageSize, (index) => pageKey * _pageSize + index);
-        final isLastPage = newItems.length < _pageSize;
-        if (isLastPage) {
-          pagingController.appendLastPage(newItems);
-        } else {
-          final nextPageKey = pageKey + 1;
-          pagingController.appendPage(newItems, nextPageKey);
-        }
-      } catch (error) {
-        pagingController.error = error;
-      }
-    }
-
-    useEffect(() {
-      pagingController.addPageRequestListener((pageKey) {
-        _fetchPage(pageKey);
-      });
-      return pagingController.dispose;
-    }, [pagingController]);
 
     return EasyRefresh(
       controller: easyRefreshController,

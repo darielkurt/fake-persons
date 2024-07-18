@@ -9,7 +9,7 @@ This Flutter application retrieves person data from FakeAPI and displays them in
 1. **Clone the repository**:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/darielkurt/fake-persons.git
    cd fake_persons
    flutter pub get
    flutter run
