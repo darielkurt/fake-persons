@@ -3,7 +3,6 @@ import 'package:fake_persons/core/models/list_state.dart';
 import 'package:fake_persons/core/routing/app_router.dart';
 import 'package:fake_persons/core/widgets/async_value_widget.dart';
 import 'package:fake_persons/src/persons_list/applications/persons_notifier.dart';
-import 'package:fake_persons/src/persons_list/domain/persons_repository.dart';
 import 'package:fake_persons/src/view_person/data/person.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,34 +17,14 @@ class PersonsList extends HookConsumerWidget {
     final asyncPersons = ref.watch(asyncPersonsProvider);
     final scrollController = useScrollController();
     final easyRefreshController = EasyRefreshController();
-
-    useEffect(() {
-      scrollController.addListener(() {
-        if (scrollController.position.pixels >=
-                0.8 * scrollController.position.maxScrollExtent &&
-            !asyncPersons.isLoading) {
-          // isLoading.value = true;
-          // fetchPersons(currentPage.value).then((newPersons) {
-          //   if (newPersons.isNotEmpty) {
-          //     persons.value = [...persons.value, ...newPersons];
-          //     currentPage.value += 1;
-          //   }
-          //   isLoading.value = false;
-          // });
-        }
-      });
-
-      return () => scrollController.dispose();
-    }, []);
-
     final page = useState(2);
+
     return EasyRefresh(
       controller: easyRefreshController,
       onRefresh: () async {
-        easyRefreshController.callRefresh();
         ref.invalidate(asyncPersonsProvider);
-        easyRefreshController.resetFooter();
         await ref.read(asyncPersonsProvider.future);
+        page.value = 2;
 
         return IndicatorResult.success;
       },
@@ -53,18 +32,16 @@ class PersonsList extends HookConsumerWidget {
         await ref
             .read(asyncPersonsProvider.notifier)
             .fetchMore(page: page.value);
-
         if (page.value == 4) {
-          page.value = 2;
           return IndicatorResult.noMore;
         }
-
         page.value++;
       },
       child: AsyncValueWidget<ListState<Person>>(
           value: asyncPersons,
           data: (persons) {
             return ListView.builder(
+              controller: scrollController,
               itemCount: persons.items.length,
               itemBuilder: (context, index) {
                 final person = persons.items[index];
